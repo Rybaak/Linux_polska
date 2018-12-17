@@ -4,6 +4,6 @@ conn = psycopg2.connect("host=localhost dbname=postgres user=postgres password=g
 cur = conn.cursor()
 
 with open('foo.csv', 'r') as f:
-    cur.copy_from(f, 'EMPLOYEES', sep=',', null='')
+    cur.copy_from(f, 'EMPLOYEES_PART', sep=',', null='')
 
 conn.commit()

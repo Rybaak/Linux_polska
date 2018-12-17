@@ -1,5 +1,6 @@
 import datetime
 import time
+import re
 
 import cx_Oracle
 import numpy as np
@@ -7,7 +8,8 @@ import pandas as pd
 import psycopg2
 
 v_count = 0
-v_table= 'EMPLOYEES'
+v_table= 'EMPLOYEES_PART'
+my_list = []
 
 ts = time.time()
 st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
@@ -45,6 +47,23 @@ dataset = pd.DataFrame({
 })
 dataset.index = result_qery[:,0]
 print ("dataset.loc['3']: \n" + str(dataset.loc[100]))
+print ('')
+
+print ('')
+for row in result_qery:
+    a = str(str(row[5])[0:4].replace('-',''))
+    my_list.append(a)
+
+my_list = list(set(my_list))
+
+
+cur_pstgress.execute("""select relname from pg_inherits i join pg_class c on c.oid = inhrelid where inhparent = 'EMPLOYEES_PART' ::regclass""")
+a = np.asarray(cur_pstgress.fetchall())
+
+for i in my_list:
+    if 'employees_part_'+i not in a.astype(str):
+        cur_pstgress.execute(f"CREATE TABLE EMPLOYEES_PART_{i} PARTITION OF EMPLOYEES_PART FOR VALUES FROM ('{i}-01-01') TO ('{i}-12-31');", i)
+        print(f'Dodano partycję za: {i}')
 print ('')
 
 for row in result_qery:
