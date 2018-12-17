@@ -1,6 +1,5 @@
 import datetime
 import time
-import re
 
 import cx_Oracle
 import numpy as np
@@ -77,6 +76,3 @@ ts2 = time.time()
 st2 = datetime.datetime.fromtimestamp(ts2).strftime('%Y-%m-%d %H:%M:%S')
 print (st2)
 print ("Załadowano " + str(v_count) + " rekordów do tabeli: " + v_table)
-
-
-
