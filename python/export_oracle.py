@@ -14,9 +14,6 @@ dbname = config.ORACLE_DATABASE_CONFIG['dbname']
 con = cx_Oracle.connect(user + '/' + password + '@' + host + ':' + port + '/' + dbname)
 cur = con.cursor()
 
-# cur.prepare('select * from HR.employees where employee_id = :id')
-# cur.execute(None, {'id': 100})
-
 cur.execute('select * from HR.employees')
 result_qery = np.asarray(cur.fetchall())
 
