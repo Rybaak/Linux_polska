@@ -1,0 +1,6 @@
+projectKey=linux_polska
+serverUrl=http://localhost:9000
+serverVersion=7.4.0.18908
+dashboardUrl=http://localhost:9000/dashboard?id=linux_polska
+ceTaskId=AWfCze6hC3Mc6i6274Qh
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AWfCze6hC3Mc6i6274Qh
