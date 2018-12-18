@@ -6,6 +6,19 @@ import numpy as np
 import pandas as pd
 import psycopg2
 
+import config
+
+oracle_user = config.ORACLE_DATABASE_CONFIG['user']
+oracle_password = config.ORACLE_DATABASE_CONFIG['password']
+oracle_host = config.ORACLE_DATABASE_CONFIG['host']
+oracle_port = str(config.ORACLE_DATABASE_CONFIG['port'])
+oracle_dbname = config.ORACLE_DATABASE_CONFIG['dbname']
+
+postgres_user = config.POSTGRESS_DATABASE_CONFIG['user']
+postgres_password = config.POSTGRESS_DATABASE_CONFIG['password']
+postgres_host = config.POSTGRESS_DATABASE_CONFIG['host']
+postgres_dbname = config.POSTGRESS_DATABASE_CONFIG['dbname']
+
 v_count = 0
 v_table = 'EMPLOYEES_PART'
 v_table_15_min = 'EMPLOYEES_LAST_15_MIN'
@@ -15,10 +28,15 @@ ts = time.time()
 st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 print(st)
 
-con_pstgress = psycopg2.connect("host=localhost dbname=postgres user=postgres password=gpadmin")
+con_pstgress = psycopg2.connect(
+    'host=' + postgres_host +
+    ' dbname=' + postgres_dbname +
+    ' user=' + postgres_user +
+    ' password=' + postgres_password + '')
 cur_pstgress = con_pstgress.cursor()
 
-con_oracle = cx_Oracle.connect('system/oracle@127.0.0.1:49161/xe')
+con_oracle = cx_Oracle.connect(
+    oracle_user + '/' + oracle_password + '@' + oracle_host + ':' + oracle_port + '/' + oracle_dbname)
 cur_oracle = con_oracle.cursor()
 
 cur_oracle.execute('select * from HR.employees')

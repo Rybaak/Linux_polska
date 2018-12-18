@@ -3,7 +3,15 @@ import csv
 import cx_Oracle
 import numpy as np
 
-con = cx_Oracle.connect('system/oracle@127.0.0.1:49161/xe')
+import config
+
+user = config.ORACLE_DATABASE_CONFIG['user']
+password = config.ORACLE_DATABASE_CONFIG['password']
+host = config.ORACLE_DATABASE_CONFIG['host']
+port = str(config.ORACLE_DATABASE_CONFIG['port'])
+dbname = config.ORACLE_DATABASE_CONFIG['dbname']
+
+con = cx_Oracle.connect(user + '/' + password + '@' + host + ':' + port + '/' + dbname)
 cur = con.cursor()
 
 # cur.prepare('select * from HR.employees where employee_id = :id')
