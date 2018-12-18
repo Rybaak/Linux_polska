@@ -8,6 +8,7 @@ import psycopg2
 
 v_count = 0
 v_table= 'EMPLOYEES_PART'
+v_table_15_min= 'EMPLOYEES_LAST_15_MIN'
 my_list = []
 
 ts = time.time()
@@ -65,9 +66,12 @@ for i in my_list:
         print(f'Dodano partycję za: {i}')
 print ('')
 
+cur_pstgress.execute('INSERT INTO '+ v_table +' select * from '+ v_table_15_min +';')
+cur_pstgress.execute('TRUNCATE TABLE '+ v_table_15_min +';')
+
 for row in result_qery:
     cur_pstgress.execute(
-            "INSERT INTO " + v_table +" VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", row
+            "INSERT INTO " + v_table_15_min +" VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", row
         )
     v_count += 1
 con_pstgress.commit()
